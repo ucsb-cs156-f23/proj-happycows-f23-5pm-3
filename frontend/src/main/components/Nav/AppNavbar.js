@@ -2,7 +2,7 @@ import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
 import AppNavbarLocalhost from "main/components/Nav/AppNavbarLocalhost"
-
+// a test
 export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUrl = window.location.href }) {
   return (
     <>
@@ -12,7 +12,7 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
           <AppNavbarLocalhost url={currentUrl} />
         )
       }
-      <Navbar expand="xl" variant="dark" bg="dark" sticky="top" data-testid="AppNavbar">
+      <Navbar expand="xl" variant="dark" bg="dark" sticky="top" data-testid="AppNavbar"> 
         <Container>
           <Navbar.Brand as={Link} to="/">
             Happy Cows
