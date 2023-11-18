@@ -2,18 +2,45 @@ import OurTable from "main/components/OurTable";
 
 // should take in a players list from a commons
 export default function ReportHeaderTable({ report  }) {
+
+    const USD = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
+
     const columns = [
         {
             Header: 'Cow Price',
-            accessor: 'cowPrice', 
+            id:"cowPrice",
+            accessor: (row, _rowIndex) => {
+                return USD.format(row.cowPrice);
+            },
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Milk Price',
-            accessor: 'milkPrice',
+            id:"milkPrice",
+            accessor: (row, _rowIndex) => {
+                return USD.format(row.milkPrice);
+            },
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Start Bal',
-            accessor: 'startingBalance',
+            id:"startingBalance",
+            accessor: (row, _rowIndex) => {
+                return USD.format(row.startingBalance);
+            },
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Start Date',

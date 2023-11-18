@@ -36,13 +36,15 @@ describe("ReportLineTable tests", () => {
 
     expect(screen.getByTestId(`${testId}-cell-row-0-col-userId`)).toHaveTextContent("1");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-username`)).toHaveTextContent("Phill Conrad");
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("9745");
+    expect(screen.getByTestId(`${testId}-cell-row-0-col-totalWealth`)).toHaveTextContent("$9,745.00");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-numOfCows`)).toHaveTextContent("3");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-avgCowHealth`)).toHaveTextContent("100");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-cowsBought`)).toHaveTextContent("3");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-cowsSold`)).toHaveTextContent("0");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-cowDeaths`)).toHaveTextContent("0");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-createDate`)).toHaveTextContent("2023-08-07T01:12:54.767+00:00");
+
+    expect(screen.getAllByText("$9,745.00")[0]).toHaveStyle("text-align: right;");
 
   });
 
