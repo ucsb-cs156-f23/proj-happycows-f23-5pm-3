@@ -105,6 +105,12 @@ describe("LeaderboardTable tests", () => {
     );
 
     expect(screen.getAllByText("$1,000.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("8")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("two")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("5")[0]).toHaveStyle("text-align: right;");
+
+
+
 
   });
     
