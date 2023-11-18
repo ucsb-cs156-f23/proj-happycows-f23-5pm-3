@@ -92,22 +92,25 @@ describe("LeaderboardTable tests", () => {
 
   });
 
-  test("Total wealth is formatted correctly", () => {
+  test("All columns are formatted correctly", () => {
     const currentUser = currentUserFixtures.adminUser;
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={leaderboardFixtures.fiveUserCommonsLB} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
     expect(screen.getAllByText("$1,000.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("93")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("8")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("two")[0]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("5")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("8")[1]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("8")[2]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("8")[3]).toHaveStyle("text-align: right;");
+
 
 
 
@@ -116,4 +119,3 @@ describe("LeaderboardTable tests", () => {
     
 
 });
-
