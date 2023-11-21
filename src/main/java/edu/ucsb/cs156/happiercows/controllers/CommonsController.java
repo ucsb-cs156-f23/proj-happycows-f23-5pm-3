@@ -17,13 +17,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import edu.ucsb.cs156.happiercows.services.CommonsPlusBuilderService;
 
-
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -44,7 +45,29 @@ public class CommonsController extends ApiController {
     @Autowired
     CommonsPlusBuilderService commonsPlusBuilderService;
 
+    @Value("${app.commons.default.startingBalance}")
+    private int defaultStartingBalance;
 
+    @Value("${app.commons.default.cowPrice}")
+    private int defaultCowPrice;
+
+    @Value("${app.commons.default.milkPrice}")
+    private int defaultMilkPrice;
+
+    @Value("${app.commons.default.degradationRate}")
+    private double defaultDegradationRate;
+
+    @Value("${app.commons.default.carryingCapacity}")
+    private int defaultCarryingCapacity;
+
+    @Value("${app.commons.default.capacityPerUser}")
+    private int defaultCapacityPerUser;
+
+    @Value("${app.commons.default.aboveCapacityHealthUpdateStrategy}")
+    private String defaultAboveCapacityHealthUpdateStrategy;
+
+    @Value("${app.commons.default.belowCapacityHealthUpdateStrategy}")
+    private String defaultBelowCapacityHealthUpdateStrategy;
 
     @Operation(summary = "Get a list of all commons")
     @GetMapping("/all")
@@ -79,6 +102,31 @@ public class CommonsController extends ApiController {
 
         return commonsPlus;
     }
+    
+    @Operation(summary = "Get a commons object containing the default values")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/default")
+    public ResponseEntity<String> getDefaultCommons() throws JsonProcessingException {
+        var builder = Commons.builder()
+            .name("")
+            .cowPrice(defaultCowPrice)
+            .milkPrice(defaultMilkPrice)
+            .startingBalance(defaultStartingBalance)
+            .startingDate(LocalDateTime.now().withNano(0))
+            .degradationRate(defaultDegradationRate)
+            .showLeaderboard(false)
+            .capacityPerUser(defaultCapacityPerUser)
+            .carryingCapacity(defaultCarryingCapacity);
+        
+        Commons defaultCommons = builder.build();
+
+        defaultCommons.setAboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultAboveCapacityHealthUpdateStrategy));
+        defaultCommons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultBelowCapacityHealthUpdateStrategy));
+
+        String body = mapper.writeValueAsString(defaultCommons);
+        return ResponseEntity.ok().body(body);
+    }
+
 
     @Operation(summary = "Update a commons")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
