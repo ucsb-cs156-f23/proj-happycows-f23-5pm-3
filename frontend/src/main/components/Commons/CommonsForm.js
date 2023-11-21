@@ -146,7 +146,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="milkPrice">Milk Price</Form.Label>
                         <OverlayTrigger
-                            placement="top"
+                            placement="bottom"
                             overlay={<Tooltip>This is the amount of money the farmer earns in profits for each cow every time it is milked if it is at 100% health. When a cow is at health less than 100%, the amount earned is multiplied by that percentage (e.g. 75% of the milk price if the health is at 75%).</Tooltip>}
                             delay='100'
                         >
@@ -178,7 +178,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
                         <OverlayTrigger
-                            placement="top"
+                            placement="bottom"
                             overlay={<Tooltip>This number controls the rate at which cow health decreases when the number of cows in the commons is greater than the effective carrying capacity. The way in which the number is used depends on the selected Health Update Formulas below.</Tooltip>}
                             delay='100'
                         >
@@ -206,7 +206,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="carryingCapacity">Carrying Capacity</Form.Label>
                         <OverlayTrigger
-                            placement="top"
+                            placement="bottom"
                             overlay={<Tooltip>This is the minimum carrying capacity for the commons; at least this many cows may graze in the commons regardless of the number of players. If this number is zero, then only the Capacity Per User is used to determine the actual carrying capacity.</Tooltip>}
                             delay='100'
                         >
@@ -233,7 +233,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="capacityPerUser">Capacity Per User</Form.Label>
                         <OverlayTrigger
-                            placement="top"
+                            placement="bottom"
                             overlay={<Tooltip>When this number is greater than zero, the commons will be able to support at least this many cows per farmer; that is, the effective carrying capacity of the commons is the value of Carrying Capacity, or Capacity Per User times the number of Farmers, whichever is greater. If this number is zero, then the Carrying Capacity is fixed regardless of the number of users.</Tooltip>}
                             delay='100'
                         >
