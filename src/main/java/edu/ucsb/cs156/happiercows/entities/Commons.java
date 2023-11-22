@@ -35,7 +35,7 @@ public class Commons {
     private int carryingCapacity;
     private double degradationRate;
 
-    // these defaults match old behavior
+        // these defaults match old behavior
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private CowHealthUpdateStrategies belowCapacityHealthUpdateStrategy = CowHealthUpdateStrategies.DEFAULT_BELOW_CAPACITY;
