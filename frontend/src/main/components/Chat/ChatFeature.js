@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
 import ChatPanel from "main/components/Chat/ChatPanel";
@@ -7,8 +6,7 @@ import ChatOpenedIcon from "../../../assets/ChatOpenedIcon.svg";
 import ChatClosedIcon from "../../../assets/ChatClosedIcon.svg";
 import ChatBubble from "../../../assets/ChatBubble.svg";
 
-export default function ChatFeature() {
-  const { commonsId } = useParams();
+const ChatFeature = ({commonsId}) => {
   const [isChatClosed, setIsChatClosed] = useState(true);
 
   const toggleChatWindow = () => {
@@ -49,3 +47,5 @@ export default function ChatFeature() {
     </div>
   );
 };
+
+export default ChatFeature;

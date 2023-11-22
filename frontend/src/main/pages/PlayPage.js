@@ -134,7 +134,7 @@ export default function PlayPage() {
           }
         </Container>
       </BasicLayout>
-      <ChatFeature/>
+      <ChatFeature commonsId={commonsId} />
     </div>
   )
 }
