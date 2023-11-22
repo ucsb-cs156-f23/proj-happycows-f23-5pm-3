@@ -586,7 +586,6 @@ public class CommonsControllerTests extends ControllerTestCase {
             .capacityPerUser(defaultCapacityPerUser)
             .carryingCapacity(defaultCarryingCapacity)
             .build();
-
         
         expectedDefaultCommons.setAboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultAboveCapacityHealthUpdateStrategy));
         expectedDefaultCommons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultBelowCapacityHealthUpdateStrategy));
