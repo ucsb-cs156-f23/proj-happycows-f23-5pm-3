@@ -120,8 +120,13 @@ public class CommonsController extends ApiController {
         
         Commons defaultCommons = builder.build();
 
-        defaultCommons.setAboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultAboveCapacityHealthUpdateStrategy));
-        defaultCommons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultBelowCapacityHealthUpdateStrategy));
+        if (defaultAboveCapacityHealthUpdateStrategy != CowHealthUpdateStrategies.Linear.name()){
+            defaultCommons.setAboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultAboveCapacityHealthUpdateStrategy));
+        }
+        
+        if (defaultBelowCapacityHealthUpdateStrategy != CowHealthUpdateStrategies.Constant.name()){
+            defaultCommons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultBelowCapacityHealthUpdateStrategy));
+        }
 
         String body = mapper.writeValueAsString(defaultCommons);
         return ResponseEntity.ok().body(body);
