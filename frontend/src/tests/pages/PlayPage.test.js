@@ -133,11 +133,11 @@ describe("PlayPage tests", () => {
         );
 
         await waitFor(() => {
-            expect(screen.getByTestId("playpage-chat-toggle")).toBeInTheDocument();
+            expect(screen.getByTestId("chat-feature-container")).toBeInTheDocument();
         });
     
         // Make sure the chat toggle button is visible
-        const chatToggleButton = screen.getByTestId("playpage-chat-toggle");
+        const chatToggleButton = screen.getByTestId("chat-toggle");
         expect(chatToggleButton).toBeInTheDocument();
         
         // Make sure the ChatPanel is not visible initially
@@ -170,39 +170,54 @@ describe("PlayPage tests", () => {
         );
 
         await waitFor(() => {
-            expect(screen.getByTestId("playpage-chat-toggle")).toBeInTheDocument();
+            expect(screen.getByTestId("chat-feature-container")).toBeInTheDocument();
         });
 
-        const chatButton = screen.getByTestId("playpage-chat-toggle");
         const chatContainer = screen.getByTestId("playpage-chat-div");
+        const chatButton = screen.getByTestId("chat-toggle");
+        const chatClosedIcon = screen.getByTestId("chat-closed-icon");
+        const chatBubbleIcon = screen.getByTestId("chat-bubble-icon");
+        var chatOpenedIcon = null;
 
-        expect(chatButton).toHaveTextContent('▲');
+        expect(chatButton).toContainElement(chatClosedIcon);
 
         // Click the chat toggle button to open the ChatPanel
         fireEvent.click(chatButton);
 
         await waitFor(() => {
-            expect(chatButton).toHaveTextContent('▼');
+            chatOpenedIcon = screen.getByTestId("chat-opened-icon");
+            expect(chatButton).toContainElement(chatOpenedIcon);
         });
 
-        // Check styles for the chat button
-        expect(chatButton).toHaveStyle(`
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: lightblue;
-            color: black;
+        // Check styles for the chat icons
+        expect(chatClosedIcon).toHaveStyle(`
+            width: 95px;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 10px;
+            right: 30px;
+        `);
+
+        expect(chatOpenedIcon).toHaveStyle(`
+            width: 95px;
+            position: fixed;
+            bottom: 10px;
+            right: 30px;
+        `);
+
+        // Check styles for the chat bubble icon
+        expect(chatBubbleIcon).toHaveStyle(`
+            width: 67px;
+            position: fixed;
+            bottom: 80px;
+            right: 120px;
         `);
 
         // Check styles for the chat container
         expect(chatContainer).toHaveStyle(`
             width: 550px;
             position: fixed;
-            bottom: 100px;
-            right: 20px;
+            bottom: 130px;
+            right: 10px;
         `);
     });
     
