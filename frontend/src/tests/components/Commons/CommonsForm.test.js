@@ -251,23 +251,6 @@ describe("CommonsForm tests", () => {
     fireEvent.click(submitButton);
     await screen.findByText(/Start Date is required/i);
 
-    // fireEvent.change(screen.getByTestId("CommonsForm-startingDay"), { target: { value: '' } });
-    // fireEvent.click(submitButton);
-    // await screen.findByText(/Starting Date is required/i);
-
-    // // Test 2: Valid Last Day (No Error)
-    // fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: '2023-01-01' } });
-    // fireEvent.change(screen.getByTestId("CommonsForm-lastDay"), { target: { value: '2023-01-02' } });
-    // fireEvent.click(submitButton);
-    // expect(screen.queryByText(/Last Day must come after starting date/i)).toBeNull();
-
-    // // Test 3: Last Day before Starting Date
-    // fireEvent.change(screen.getByTestId("CommonsForm-startingDate"), { target: { value: '2023-01-02' } });
-    // fireEvent.change(screen.getByTestId("CommonsForm-lastDay"), { target: { value: '2023-01-01' } });
-    // fireEvent.click(submitButton);
-    // await screen.findByText(/Last Day must come after starting date/i);
-
-
 
     expect(submitAction).not.toBeCalled();
   });
