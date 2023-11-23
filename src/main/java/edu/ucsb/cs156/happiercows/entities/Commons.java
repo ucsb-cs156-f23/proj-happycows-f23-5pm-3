@@ -35,6 +35,11 @@ public class Commons {
     private int carryingCapacity;
     private double degradationRate;
 
+    public boolean gameInProgress(){
+        boolean output = (startingDate.isBefore(LocalDateTime.now()) && lastDay.isAfter(LocalDateTime.now()));
+        return output;
+      }
+
         // these defaults match old behavior
     @Enumerated(EnumType.STRING)
     @Builder.Default
