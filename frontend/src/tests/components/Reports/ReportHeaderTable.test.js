@@ -47,6 +47,9 @@ describe("ReportHeaderTable tests", () => {
     expect(screen.getAllByText("$10,000.00")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("$100.00")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("$5.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("10")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("0.1")[0]).toHaveStyle("text-align: right;");
+
 
 
   });

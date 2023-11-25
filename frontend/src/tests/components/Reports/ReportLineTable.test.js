@@ -44,7 +44,17 @@ describe("ReportLineTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-0-col-cowDeaths`)).toHaveTextContent("0");
     expect(screen.getByTestId(`${testId}-cell-row-0-col-createDate`)).toHaveTextContent("2023-08-07T01:12:54.767+00:00");
 
+    expect(screen.getAllByText("1")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("$9,745.00")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("3")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("3")[1]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("100")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("0")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("0")[1]).toHaveStyle("text-align: right;");
+    
+
+
+
 
   });
 

@@ -12,6 +12,10 @@ export default function ReportLineTable({ reportLines }) {
         {
             Header: 'userId',
             accessor: 'userId', 
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Username',
@@ -31,22 +35,42 @@ export default function ReportLineTable({ reportLines }) {
         {
             Header: 'Num Cows',
             accessor: 'numOfCows', 
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Avg Cow Health',
             accessor: 'avgCowHealth',
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Cows Bought',
             accessor: 'cowsBought',
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Cows Sold',
             accessor: 'cowsSold',
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Cow Deaths',
             accessor: 'cowDeaths',
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Create Date',

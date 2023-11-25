@@ -56,10 +56,18 @@ export default function ReportHeaderTable({ report  }) {
         {
             Header: 'Capacity',
             accessor: 'carryingCapacity',
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'Degrad Rate',
             accessor: 'degradationRate',
+            Cell: (props) => {
+                return (
+                  <div style={{textAlign: "right"}}>{props.value}</div>)
+            },
         },
         {
             Header: 'BelowCap',
