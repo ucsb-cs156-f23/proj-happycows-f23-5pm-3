@@ -45,7 +45,7 @@ export default function ReportLineTable({ reportLines }) {
             accessor: 'avgCowHealth',
             Cell: (props) => {
                 return (
-                  <div style={{textAlign: "right"}}>{props.value}</div>)
+                  <div style={{textAlign: "right"}}>{props.value.toFixed(3)}</div>)
             },
         },
         {
