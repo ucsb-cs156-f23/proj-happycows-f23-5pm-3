@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "chat_message")
+@Entity(name = "announcement")
 public class Announcement {
     
     // Unique Message Id
