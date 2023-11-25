@@ -59,9 +59,10 @@ describe("ReportTable tests", () => {
     expect(screen.getAllByText("3")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("1")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("1")[1]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("1")[2]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("3")[1]).toHaveStyle("text-align: right;");
 
-
+    console.log(screen.getAllByText("3"))
 
 
 
