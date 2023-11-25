@@ -1,6 +1,9 @@
 import React, { useState} from "react";
 import greetingsList from "../../../assets/PlayGreetings.json"
 
+import "../../pages/HomePage.css"
+
+
 export default function CommonsPlay({ currentUser }) {
   // Stryker disable  all 
   const firstName = currentUser?.root ? currentUser?.root?.user?.givenName : "";
@@ -10,7 +13,7 @@ export default function CommonsPlay({ currentUser }) {
 
   return (
     <div data-testid="CommonsPlay">
-      <h1>
+      <h1 data-testid="CommonsPlay-title" style={{backgroundSize: "300%",backgroundPosition:"-100%", fontSize:"32px", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent"}} className="gradient-animation">
       {welcomeText} {firstName}! 
     </h1>
     </div>

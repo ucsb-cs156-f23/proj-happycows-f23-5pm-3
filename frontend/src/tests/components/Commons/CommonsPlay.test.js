@@ -8,6 +8,10 @@ describe("CommonsPlay tests", () => {
         render(
             <CommonsPlay currentUser={currentUserFixtures.userOnly } commons={commonsFixtures.oneCommons[0]} />
         );
+
+        const title = screen.getByTestId("CommonsPlay-title");
+        expect(title).toHaveAttribute("style", "background-size: 300%; background-position: -100%; font-size: 32px; background-clip: text; color: transparent;");
+
     });
 
     test("renders without crashing when user is admin", () => {
