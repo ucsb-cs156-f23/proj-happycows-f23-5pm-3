@@ -67,7 +67,7 @@ export default function HomePage({hour=null}) {
   return (
     <div data-testid={"HomePage-main-div"} style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout>
-        <h1 data-testid="homePage-title" style={{backgroundSize: "300%",backgroundPosition:"-100%", textAlign:"center", fontSize:"50px", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent"}} className="gradient-animation">Howdy, Farmer {firstName}!</h1>
+        <h1 data-testid="homePage-title" style={{backgroundSize: "300%",backgroundPosition:"-100%", textAlign:"center", fontSize:"50px", backgroundClip: "text", color: "transparent"}} className="gradient-animation">Howdy, Farmer {firstName}!</h1>
         <Container>
           <Row>
             <Col sm><CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} /></Col>

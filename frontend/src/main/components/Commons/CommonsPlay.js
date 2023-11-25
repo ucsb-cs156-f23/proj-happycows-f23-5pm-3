@@ -13,7 +13,7 @@ export default function CommonsPlay({ currentUser }) {
 
   return (
     <div data-testid="CommonsPlay">
-      <h1 data-testid="CommonsPlay-title" style={{backgroundSize: "300%",backgroundPosition:"-100%", fontSize:"32px", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent"}} className="gradient-animation">
+      <h1 data-testid="CommonsPlay-title" style={{backgroundSize: "300%",backgroundPosition:"-100%", fontSize:"32px", backgroundClip: "text", color: "transparent"}} className="gradient-animation">
       {welcomeText} {firstName}! 
     </h1>
     </div>

@@ -1,6 +1,7 @@
 .gradient-animation {
     animation: animateGradient 4s infinite alternate-reverse;
     background-image: linear-gradient(to right, #006400, #00CC00);
+    -webkit-background-clip: text;
   }
   
   @keyframes animateGradient {
