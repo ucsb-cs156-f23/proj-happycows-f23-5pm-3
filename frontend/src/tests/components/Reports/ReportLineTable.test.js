@@ -48,7 +48,7 @@ describe("ReportLineTable tests", () => {
     expect(screen.getAllByText("$9,745.00")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("3")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("3")[1]).toHaveStyle("text-align: right;");
-    expect(screen.getAllByText("100")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("100.000")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("0")[0]).toHaveStyle("text-align: right;");
     expect(screen.getAllByText("0")[1]).toHaveStyle("text-align: right;");
     
