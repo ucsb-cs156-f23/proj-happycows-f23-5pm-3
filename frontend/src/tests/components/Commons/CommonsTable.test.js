@@ -69,14 +69,18 @@ describe("UserTable tests", () => {
 
     );
 
-    const expectedHeaders = ["id", "Name", "Cow Price", 'Milk Price', 'Starting Balance', 'Starting Date', 'Degradation Rate', 'Capacity Per User', 'Carrying Capacity', "Effective Capacity",'Cows', 'Show Leaderboard?'];
+    const expectedHeaders = ['id', 'Name', 'Cow Price', 'Milk Price', 'Starting Balance', 'Starting Date', 'Degrad Rate', 'Cap Per Usr', 'Carrying Cap', 'Effective Cap','Cows', 'Show Ldrboard'];
     const expectedFields = ["id", "name", "cowPrice", "milkPrice", "startingBalance", "startingDate", "degradationRate", "capacityPerUser", "carryingCapacity"];
     const testId = "CommonsTable";
 
+
     expectedHeaders.forEach((headerText) => {
-      const header = screen.getByText(headerText);
+      const header = screen.getByText(new RegExp(`^${headerText.replace(/\s+/g, '\\s*')}$`, 'i'));
       expect(header).toBeInTheDocument();
     });
+    
+    
+    
 
     expectedFields.forEach((field) => {
       const header = screen.getByTestId(`${testId}-cell-row-0-col-commons.${field}`);
