@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import LeaderboardTable from "main/components/Leaderboard/LeaderboardTable";
-import { currentUserFixtures } from "fixtures/currentUserFixtures";
 import leaderboardFixtures from "fixtures/leaderboardFixtures";
 
 const mockedNavigate = jest.fn();
@@ -16,24 +15,22 @@ describe("LeaderboardTable tests", () => {
   const queryClient = new QueryClient();
 
   test("renders without crashing for empty table with user not logged in", () => {
-    const currentUser = null;
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]}/>
         </MemoryRouter>
       </QueryClientProvider>
 
     );
   });
   test("renders without crashing for empty table for ordinary user", () => {
-    const currentUser = currentUserFixtures.userOnly;
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -41,12 +38,11 @@ describe("LeaderboardTable tests", () => {
   });
 
   test("renders without crashing for empty table for admin", () => {
-    const currentUser = currentUserFixtures.adminUser;
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={[]} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={[]} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -54,12 +50,10 @@ describe("LeaderboardTable tests", () => {
   });
 
   test("Has the expected column headers and content for adminUser", () => {
-    const currentUser = currentUserFixtures.adminUser;
-
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={leaderboardFixtures.threeUserCommonsLB}/>
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -93,12 +87,10 @@ describe("LeaderboardTable tests", () => {
   });
 
   test("All columns are formatted correctly", () => {
-    const currentUser = currentUserFixtures.adminUser;
-
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <LeaderboardTable leaderboardUsers={leaderboardFixtures.fiveUserCommonsLB} currentUser={currentUser} />
+          <LeaderboardTable leaderboardUsers={leaderboardFixtures.fiveUserCommonsLB} />
         </MemoryRouter>
       </QueryClientProvider>
 

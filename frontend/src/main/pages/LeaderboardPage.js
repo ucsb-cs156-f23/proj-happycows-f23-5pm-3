@@ -61,7 +61,7 @@ export default function LeaderboardPage() {
           <h1>Leaderboard</h1>
           {
             showLeaderboard ?
-              (<LeaderboardTable leaderboardUsers={userCommons} currentUser={currentUser} />) :
+              (<LeaderboardTable leaderboardUsers={userCommons} />) :
               (<p>You're not authorized to see the leaderboard.</p>)
           }
         </div>

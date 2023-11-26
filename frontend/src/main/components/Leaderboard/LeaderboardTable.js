@@ -68,8 +68,6 @@ export default function LeaderboardTable({ leaderboardUsers }) {
 
     const testid = "LeaderboardTable";
 
-    /* Temp filler for admin leaderboard table */
-
 
     return <OurTable
         data={leaderboardUsers}
