@@ -41,60 +41,60 @@ export default function CommonsTable({ commons, currentUser }) {
 
     const columns = [
         {
-            Header: 'id',
+            Header: <span>id</span>,
             accessor: 'commons.id', // accessor is the "key" in the data
 
         },
         {
-            Header:'Name',
+            Header: <span>Name</span>,
             accessor: 'commons.name',
         },
         {
-            Header:'Cow Price',
+            Header: <small>Cow<br />Price</small>,
             accessor: row => row.commons.cowPrice,
             id: 'commons.cowPrice'
         },
         {
-            Header:'Milk Price',
+            Header: <small>Milk<br />Price</small>,
             accessor: row => row.commons.milkPrice,
             id: 'commons.milkPrice'
         },
         {
-            Header:'Starting Balance',
+            Header: <small>Starting<br />Balance</small>,
             accessor: row => row.commons.startingBalance,
             id: 'commons.startingBalance'
         },
         {
-            Header:'Starting Date',
+            Header: <span>Starting<br />Date</span>,
             accessor: row => String(row.commons.startingDate).slice(0,10),
             id: 'commons.startingDate'
         },
         {
-            Header:'Degradation Rate',
+            Header: <small>Degrad<br />Rate</small>,
             accessor: row => row.commons.degradationRate,
             id: 'commons.degradationRate'
         },
         {
-            Header:'Show Leaderboard?',
+            Header: <small>Show<br />Ldrboard</small>,
             id: 'commons.showLeaderboard', // needed for tests
             accessor: (row, _rowIndex) => String(row.commons.showLeaderboard) // hack needed for boolean values to show up
         },
         {
-            Header: 'Cows',
+            Header: <small>Cows</small>,
             accessor: 'totalCows'
         },
         {
-            Header: 'Capacity Per User',
+            Header: <small>Cap<br />Per<br />Usr</small>,
             accessor: row => row.commons.capacityPerUser,
             id: 'commons.capacityPerUser'
         },
         {
-            Header: 'Carrying Capacity',
+            Header: <small>Carrying<br />Cap</small>,
             accessor: row => row.commons.carryingCapacity,
             id: 'commons.carryingCapacity'
         },
         {
-            Header: 'Effective Capacity',
+            Header: <small>Effective<br />Cap</small>,
             accessor: 'effectiveCapacity'
         }
     ];

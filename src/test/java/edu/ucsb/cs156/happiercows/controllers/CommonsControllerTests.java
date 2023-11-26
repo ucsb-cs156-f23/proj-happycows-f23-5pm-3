@@ -16,8 +16,10 @@ import edu.ucsb.cs156.happiercows.strategies.CowHealthUpdateStrategies;
 import edu.ucsb.cs156.happiercows.services.CommonsPlusBuilderService;
 import lombok.With;
 
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,6 +35,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -58,6 +61,30 @@ public class CommonsControllerTests extends ControllerTestCase {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Value("${app.commons.default.startingBalance}")
+    private int defaultStartingBalance;
+
+    @Value("${app.commons.default.cowPrice}")
+    private int defaultCowPrice;
+
+    @Value("${app.commons.default.milkPrice}")
+    private int defaultMilkPrice;
+
+    @Value("${app.commons.default.degradationRate}")
+    private double defaultDegradationRate;
+
+    @Value("${app.commons.default.carryingCapacity}")
+    private int defaultCarryingCapacity;
+
+    @Value("${app.commons.default.capacityPerUser}")
+    private int defaultCapacityPerUser;
+
+    @Value("${app.commons.default.aboveCapacityHealthUpdateStrategy}")
+    private String defaultAboveCapacityHealthUpdateStrategy;
+
+    @Value("${app.commons.default.belowCapacityHealthUpdateStrategy}")
+    private String defaultBelowCapacityHealthUpdateStrategy;
 
     @WithMockUser(roles = {"ADMIN"})
     @Test
@@ -564,6 +591,33 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .andExpect(status().isBadRequest()).andReturn();
 
         assertInstanceOf(IllegalArgumentException.class, response.getResolvedException());
+    }
+
+    @WithMockUser(roles = {"USER"})
+    @Test
+    public void getDefaultCommons_valid() throws Exception {
+        MvcResult response = mockMvc.perform(get("/api/commons/default"))
+                .andExpect(status().isOk()).andReturn();
+        
+        Commons expectedDefaultCommons = Commons.builder()
+            .name("")
+            .cowPrice(defaultCowPrice)
+            .milkPrice(defaultMilkPrice)
+            .startingBalance(defaultStartingBalance)
+            .startingDate(LocalDateTime.now().withNano(0))
+            .degradationRate(defaultDegradationRate)
+            .showLeaderboard(false)
+            .capacityPerUser(defaultCapacityPerUser)
+            .carryingCapacity(defaultCarryingCapacity)
+            .build();
+        
+        expectedDefaultCommons.setAboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultAboveCapacityHealthUpdateStrategy));
+        expectedDefaultCommons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.valueOf(defaultBelowCapacityHealthUpdateStrategy));
+
+        String expectedJson = mapper.writeValueAsString(expectedDefaultCommons);
+
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson, responseString);
     }
 
     // This common SHOULD be in the repository
