@@ -56,6 +56,16 @@ describe("ReportTable tests", () => {
     expect(screen.getByTestId(`${testId}-cell-row-1-col-numCows`)).toHaveTextContent("3");
     expect(screen.getByTestId(`${testId}-cell-row-1-col-createDate`)).toHaveTextContent("2023-08-07T01:12:09.088+00:00");
 
+    expect(screen.getAllByText("3")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("1")[0]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("1")[1]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("1")[2]).toHaveStyle("text-align: right;");
+    expect(screen.getAllByText("3")[1]).toHaveStyle("text-align: right;");
+
+    console.log(screen.getAllByText("3"))
+
+
+
   });
 
   test("When not on storybook, navigates to view page", () => {
