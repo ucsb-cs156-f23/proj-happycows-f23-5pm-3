@@ -12,5 +12,16 @@ body {
       monospace;
   }
   
+.gradient-animation {
+    animation: animateGradient 4s infinite alternate-reverse;
+    background-image: linear-gradient(to right, #006400, #00CC00);
+    -webkit-background-clip: text;
+  }
+  
+  @keyframes animateGradient {
+    to {
+      background-position: 100%;
+    }
+  }
 
-/*# sourceMappingURL=main.870abb29.css.map*/
+/*# sourceMappingURL=main.90332f0b.css.map*/
