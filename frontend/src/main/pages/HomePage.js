@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
@@ -67,7 +67,15 @@ export default function HomePage({hour=null}) {
   return (
     <div data-testid={"HomePage-main-div"} style={{ backgroundSize: 'cover', backgroundImage: `url(${Background})` }}>
       <BasicLayout>
-        <h1 data-testid="homePage-title" style={{backgroundSize: "300%",backgroundPosition:"-100%", textAlign:"center", fontSize:"50px", backgroundClip: "text", color: "transparent"}} className="gradient-animation">Howdy, Farmer {firstName}!</h1>
+      <Card
+            style={
+                // Stryker disable next-line all: don't test CSS params
+                { opacity: ".9" }
+            }
+            className="my-3 border-0"
+        >
+        <Card.Title data-testid="homePage-title" style={{backgroundSize: "300%",backgroundPosition:"-100%", textAlign:"center", fontSize:"50px", backgroundClip: "text", color: "transparent"}} className="gradient-animation">Howdy, Farmer {firstName}!</Card.Title>
+        </Card>
         <Container>
           <Row>
             <Col sm><CommonsList commonList={commonsJoined} title="Visit A Commons" buttonText={"Visit"} buttonLink={visitButtonClick} /></Col>
