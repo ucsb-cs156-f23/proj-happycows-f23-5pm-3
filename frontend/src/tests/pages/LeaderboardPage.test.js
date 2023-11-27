@@ -81,6 +81,7 @@ describe("LeaderboardPage tests", () => {
         const leaderboard_back_button = screen.getByTestId("LeaderboardPage-back-button");
         expect(leaderboard_main_div).toHaveAttribute("style","background-size: cover; background-image: url(PlayPageBackground.png);");
         expect(leaderboard_back_button).toBeInTheDocument();
+        expect(leaderboard_back_button).toHaveAttribute("style","float: right;")
     });
 
     test("that navigate(-1) is called when Back is clicked", async () => {
