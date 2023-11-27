@@ -263,7 +263,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                 </Col>
             </Row>
 
-
+            <Row>
             <Form.Group className="mb-5" style={{width: '300px', height: '50px'}} data-testid={`${testid}-r3`}>
                 <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
                 <OverlayTrigger
@@ -313,7 +313,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     {errors.lastDay?.message}
                 </Form.Control.Feedback>
             </Form.Group>
-
+            </Row>
 
 
             <h5>Health update formula</h5>
