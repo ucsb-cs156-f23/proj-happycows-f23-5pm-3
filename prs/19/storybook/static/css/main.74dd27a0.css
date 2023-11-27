@@ -18,10 +18,16 @@ body {
     -webkit-background-clip: text;
   }
   
+  @-webkit-keyframes animateGradient {
+    to {
+      background-position: 100%;
+    }
+  }
+  
   @keyframes animateGradient {
     to {
       background-position: 100%;
     }
   }
 
-/*# sourceMappingURL=main.90332f0b.css.map*/
+/*# sourceMappingURL=main.74dd27a0.css.map*/
