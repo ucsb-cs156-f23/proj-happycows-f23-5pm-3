@@ -29,12 +29,18 @@ public class Commons {
     private double startingBalance;
     private LocalDateTime startingDate;
     private boolean showLeaderboard;
+    private LocalDateTime lastDay;
     
     private int capacityPerUser;
     private int carryingCapacity;
     private double degradationRate;
 
-    // these defaults match old behavior
+    public boolean gameInProgress(){
+        boolean output = (startingDate.isBefore(LocalDateTime.now()) && lastDay.isAfter(LocalDateTime.now()));
+        return output;
+      }
+
+        // these defaults match old behavior
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private CowHealthUpdateStrategies belowCapacityHealthUpdateStrategy = CowHealthUpdateStrategies.DEFAULT_BELOW_CAPACITY;

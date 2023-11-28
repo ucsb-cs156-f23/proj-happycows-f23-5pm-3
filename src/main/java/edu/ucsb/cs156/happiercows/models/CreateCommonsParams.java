@@ -20,6 +20,8 @@ public class CreateCommonsParams {
     private double startingBalance;
     @DateTimeFormat
     private LocalDateTime startingDate;
+    @DateTimeFormat
+    private LocalDateTime lastDay;
     @Builder.Default
     private Boolean showLeaderboard = false;
     @NumberFormat
