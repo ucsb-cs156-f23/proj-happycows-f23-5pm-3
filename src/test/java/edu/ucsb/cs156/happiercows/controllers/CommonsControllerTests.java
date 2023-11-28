@@ -90,6 +90,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void createCommonsTest() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
@@ -97,6 +98,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -111,6 +113,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -143,6 +146,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void createCommonsTest_withNoCowHealthUpdateStrategies() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
@@ -150,6 +154,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -162,6 +167,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -195,6 +201,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void createCommonsTest_zeroDegradation() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
@@ -202,6 +209,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -214,6 +222,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(0)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -244,6 +253,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void createCommonsTest_withIllegalDegradationRate() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         Commons commons = Commons.builder()
                 .name("Jackson's Commons")
@@ -251,6 +261,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(-8.49)
                 .capacityPerUser(10)
                 .carryingCapacity(100)
@@ -262,6 +273,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(-8.49)
                 .capacityPerUser(10)
                 .carryingCapacity(100)
@@ -305,6 +317,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void updateCommonsTest() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
@@ -312,6 +325,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -326,6 +340,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -385,6 +400,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void updateCommonsTest_withNoCowHealthUpdateStrategy() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
@@ -392,6 +408,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -404,6 +421,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(true)
                 .capacityPerUser(10)
@@ -439,6 +457,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void updateCommonsTest_withDegradationRate_Zero() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
@@ -446,6 +465,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -458,6 +478,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -509,6 +530,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void updateCommonsTest_withIllegalDegradationRate() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         CreateCommonsParams parameters = CreateCommonsParams.builder()
                 .name("Jackson's Commons")
@@ -516,6 +538,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -528,6 +551,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(8.49)
                 .showLeaderboard(false)
                 .capacityPerUser(10)
@@ -793,6 +817,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test
     public void deleteCommons_test_admin_exists() throws Exception {
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
 
         Commons c = Commons.builder()
                 .name("Jackson's Commons")
@@ -800,6 +825,7 @@ public class CommonsControllerTests extends ControllerTestCase {
                 .milkPrice(8.99)
                 .startingBalance(1020.10)
                 .startingDate(someTime)
+                .lastDay(laterTime)
                 .degradationRate(50.0)
                 .showLeaderboard(false)
                 .carryingCapacity(100)
@@ -1069,12 +1095,14 @@ public class CommonsControllerTests extends ControllerTestCase {
     public void UpdateCommonsTest_withIllegalParameters() throws Exception {
         // we first create a commons to update
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
         Commons commons = Commons.builder()
         .name("Jackson's Commons")
         .cowPrice(500.99)
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
+        .lastDay(laterTime)
         .degradationRate(50.0)
         .showLeaderboard(false)
         .carryingCapacity(100)
@@ -1202,12 +1230,14 @@ public class CommonsControllerTests extends ControllerTestCase {
     public void UpdateCommonsTest_withBoundaryParameters() throws Exception {
         // we first create a commons to update
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
         Commons commons = Commons.builder()
         .name("Jackson's Commons")
         .cowPrice(500.99)
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
+        .lastDay(laterTime)
         .degradationRate(50.0)
         .showLeaderboard(false)
         .carryingCapacity(100)
@@ -1247,12 +1277,14 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test void test_capacity_with_lower_per_user() throws Exception{
         
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
         Commons commons = Commons.builder()
         .name("Jackson's Commons")
         .cowPrice(500.99)
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
+        .lastDay(laterTime)
         .degradationRate(50.0)
         .showLeaderboard(false)
         .capacityPerUser(5)
@@ -1270,12 +1302,14 @@ public class CommonsControllerTests extends ControllerTestCase {
     @Test void test_capacity_with_higher_per_user() throws Exception{
         
         LocalDateTime someTime = LocalDateTime.parse("2022-03-05T15:50:10");
+        LocalDateTime laterTime = LocalDateTime.parse("2023-03-05T15:50:10");
         Commons commons = Commons.builder()
         .name("Jackson's Commons")
         .cowPrice(500.99)
         .milkPrice(8.99)
         .startingBalance(1020.10)
         .startingDate(someTime)
+        .lastDay(laterTime)
         .degradationRate(50.0)
         .showLeaderboard(false)
         .capacityPerUser(50)
