@@ -16,6 +16,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         modifiedCommons.startingDate = modifiedCommons.startingDate.split("T")[0];
     }
 
+    if (modifiedCommons?.lastDay) {
+        modifiedCommons.lastDay = modifiedCommons.lastDay.split("T")[0];
+    }
+
     const {
         register,
         formState: {errors},
@@ -267,6 +271,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                 </Col>
             </Row>
             
+            <Row>
             {initialCommons?.startingDate ?
             // Stryker disable next-line all
             <Form.Group className="mb-5" style={{width: '300px', height: '50px'}} data-testid={`${testid}-r3`}>
@@ -324,8 +329,31 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
             <Form.Control.Feedback type="invalid">
                 {errors.startingDate?.message}
             </Form.Control.Feedback>
-        </Form.Group>
+            </Form.Group>
             }
+            {
+            // Stryker disable next-line all
+            <Form.Group className="mb-5" style={{width: '300px', height: '50px'}} data-testid={`${testid}-r4`}>
+                <Form.Label htmlFor="lastDay">Last Day</Form.Label>
+                <Form.Control
+                    data-testid={`${testid}-lastDay`}
+                    id="lastDay"
+                    type="date"
+                    defaultValue={today}
+                    // Stryker disable next-line all
+                    isInvalid={!!errors.lastDay}
+                    {...register("lastDay", { 
+                        valueAsDate: true,
+                        validate: {
+                            isPresent: (v) => !isNaN(v) || "Last Day is required"  
+                        },
+                    })}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {errors.lastDay?.message}
+                </Form.Control.Feedback>
+            </Form.Group>}
+            </Row>
 
 
             <h5>Health update formula</h5>
