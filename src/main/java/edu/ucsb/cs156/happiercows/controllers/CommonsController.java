@@ -105,7 +105,7 @@ public class CommonsController extends ApiController {
     
     @Operation(summary = "Get a commons object containing the default values")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/default")
+    @GetMapping("/defaults")
     public ResponseEntity<String> getDefaultCommons() throws JsonProcessingException {
         var builder = Commons.builder()
             .name("")

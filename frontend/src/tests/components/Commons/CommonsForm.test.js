@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter as Router } from "react-router-dom";
 import CommonsForm from "main/components/Commons/CommonsForm";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -19,6 +20,20 @@ jest.mock('react-router-dom', () => ({
 
 describe("CommonsForm tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
+  const curr = new Date();
+  const today = curr.toISOString().substr(0, 10);
+  const DefaultVals = {
+    name: "", 
+    startingBalance: 10000, 
+    cowPrice: 100,
+    milkPrice: 1, 
+    degradationRate: 0.001, 
+    carryingCapacity: 100, 
+    capacityPerUser: 5, 
+    startingDate: today,
+    aboveCapacityHealthUpdateStrategy: "Constant",
+    belowCapacityHealthUpdateStrategy: "Linear"
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -34,7 +49,7 @@ describe("CommonsForm tests", () => {
     render(
       <QueryClientProvider client={new QueryClient()}>
         <Router>
-          <CommonsForm submitAction={submitAction}  />
+          <CommonsForm initialCommons={DefaultVals} submitAction={submitAction}  />
         </Router>
       </QueryClientProvider>
     );
@@ -75,7 +90,7 @@ describe("CommonsForm tests", () => {
     render(
       <QueryClientProvider client={new QueryClient()}>
         <Router>
-          <CommonsForm submitAction={submitAction} buttonLabel="Create New Commons" />
+          <CommonsForm initialCommons={DefaultVals} submitAction={submitAction} buttonLabel="Create New Commons" />
         </Router>
       </QueryClientProvider>
     );
@@ -87,6 +102,7 @@ describe("CommonsForm tests", () => {
 
     fireEvent.change(screen.getByTestId("CommonsForm-degradationRate"), { target: { value: "" } });
     fireEvent.change(screen.getByTestId("CommonsForm-carryingCapacity"), { target: { value: "" } });
+    fireEvent.change(screen.getByTestId("CommonsForm-capacityPerUser"), { target: {value: ""} });
 
     //Check default empty field
     fireEvent.click(submitButton);
@@ -121,8 +137,7 @@ describe("CommonsForm tests", () => {
       "CommonsForm-milkPrice",
       "CommonsForm-cowPrice",
       "CommonsForm-startingBalance",
-      "CommonsForm-startingDate",
-
+      "CommonsForm-startingDate"
     ].forEach(
       (item) => {
         const element = screen.getByTestId(item);
@@ -143,19 +158,10 @@ describe("CommonsForm tests", () => {
     );
 
     expect(submitAction).not.toBeCalled();
-  });
-
+    });
 
 
   it("Check Default Values and correct styles", async () => {
-
-    const curr = new Date();
-    const today = curr.toISOString().substr(0, 10);
-    const DefaultVals = {
-      name: "", startingBalance: 10000, cowPrice: 100,
-      milkPrice: 1, degradationRate: 0.001, carryingCapacity: 100, startingDate: today
-    };
-
     axiosMock
         .onGet("/api/commons/all-health-update-strategies")
         .reply(200, healthUpdateStrategyListFixtures.real);
@@ -163,15 +169,21 @@ describe("CommonsForm tests", () => {
     render(
         <QueryClientProvider client={new QueryClient()}>
           <Router>
-            <CommonsForm  />
+            <CommonsForm initialCommons={DefaultVals} />
           </Router>
         </QueryClientProvider>
     );
 
     expect(await screen.findByTestId("CommonsForm-name")).toBeInTheDocument();
     [
-      "name", "degradationRate", "carryingCapacity",
-      "milkPrice","cowPrice","startingBalance","startingDate",
+      "name",
+      "degradationRate",
+      "capacityPerUser",
+      "carryingCapacity",
+      "milkPrice",
+      "cowPrice",
+      "startingBalance",
+      "startingDate"
     ].forEach(
         (item) => {
           const element = screen.getByTestId(`CommonsForm-${item}`);
@@ -200,7 +212,7 @@ describe("CommonsForm tests", () => {
     render(
       <QueryClientProvider client={new QueryClient()}>
         <Router>
-          <CommonsForm submitAction={submitAction} buttonLabel="Create" />
+          <CommonsForm initialCommons={DefaultVals} submitAction={submitAction} buttonLabel="Create" />
         </Router>
       </QueryClientProvider>
     );
@@ -261,6 +273,7 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("belowCapacityHealthUpdateStrategy-Noop")).toBeInTheDocument();
   });
 
+
   it("renders correctly with date cut off", async () => {
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
@@ -277,6 +290,7 @@ describe("CommonsForm tests", () => {
     expect(await screen.findByText(/Id/)).toBeInTheDocument();
     expect(screen.getByTestId("CommonsForm-startingDate")).toHaveValue(commonsFixtures.threeCommons[0].startingDate.split("T")[0]);
   });
+
 
   it("renders correctly when an initialCommons is not passed in", async () => {
 
@@ -300,8 +314,63 @@ describe("CommonsForm tests", () => {
     expect(screen.getByTestId("belowCapacityHealthUpdateStrategy-Constant")).toHaveAttribute("selected");
   });
 
-  test("the correct parameters are passed to useBackend", async () => {
 
+  it("correct onChange functionality for all input fields", async () => {
+    axiosMock
+      .onGet("/api/commons/all-health-update-strategies")
+      .reply(200, healthUpdateStrategyListFixtures.real);
+
+    render(
+      <QueryClientProvider client={new QueryClient()}>
+        <Router>
+          <CommonsForm initialCommons={DefaultVals} />
+        </Router>
+      </QueryClientProvider>
+    );
+
+    expect(await screen.findByText(/Commons Name/)).toBeInTheDocument();
+
+    const startingBalanceField = screen.getByTestId("CommonsForm-startingBalance");
+    userEvent.clear(startingBalanceField);
+    userEvent.type(startingBalanceField, "123");
+    expect(startingBalanceField.value).toBe("123");
+
+    const cowPriceField = screen.getByTestId("CommonsForm-cowPrice");
+    userEvent.clear(cowPriceField);
+    userEvent.type(cowPriceField, "76");
+    expect(cowPriceField.value).toBe("76");
+
+    const milkPriceField = screen.getByTestId("CommonsForm-milkPrice");
+    userEvent.clear(milkPriceField);
+    userEvent.type(milkPriceField, "9");
+    expect(milkPriceField.value).toBe("9");
+
+    const degradationRateField = screen.getByTestId("CommonsForm-degradationRate");
+    userEvent.clear(degradationRateField);
+    userEvent.type(degradationRateField, "0.012");
+    expect(degradationRateField.value).toBe("0.012");
+
+    const carryingCapacityField = screen.getByTestId("CommonsForm-carryingCapacity");
+    userEvent.clear(carryingCapacityField);
+    userEvent.type(carryingCapacityField, "76");
+    expect(carryingCapacityField.value).toBe("76");
+
+    const capacityPerUserField = screen.getByTestId("CommonsForm-capacityPerUser");
+    userEvent.clear(capacityPerUserField);
+    userEvent.type(capacityPerUserField, "13");
+    expect(capacityPerUserField.value).toBe("13");
+
+    const startingDateField = screen.getByTestId("CommonsForm-startingDate");
+    userEvent.clear(startingDateField);
+    userEvent.type(startingDateField, "2022-10-20");
+    expect(startingDateField.value).toBe("2022-10-20");
+
+    const showLeaderboardField = screen.getByTestId("CommonsForm-showLeaderboard");
+    fireEvent.change(showLeaderboardField, { target: { value: "on" } });
+    expect(showLeaderboardField.value).toBe("on");    
+  });
+
+  test("the correct parameters are passed to useBackend", async () => {
     axiosMock
       .onGet("/api/commons/all-health-update-strategies")
       .reply(200, healthUpdateStrategyListFixtures.real);
@@ -325,5 +394,5 @@ describe("CommonsForm tests", () => {
       },
       );
     });
-  });
+    });
 });

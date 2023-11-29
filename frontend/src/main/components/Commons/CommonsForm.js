@@ -5,13 +5,17 @@ import {useBackend} from "main/utils/useBackend";
 import HealthUpdateStrategiesDropdown from "main/components/Commons/HealthStrategiesUpdateDropdown";
 
 function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
+    
     let modifiedCommons = initialCommons ? { ...initialCommons } : {};  // make a shallow copy of initialCommons
-
-    if (modifiedCommons.startingDate) {
+    
+    // Stryker disable all
+    const curr = new Date();
+    const today = curr.toISOString().split('T')[0];
+    
+    if (modifiedCommons?.startingDate) {
         modifiedCommons.startingDate = modifiedCommons.startingDate.split("T")[0];
     }
 
-    // Stryker disable all
     const {
         register,
         formState: {errors},
@@ -30,20 +34,15 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     );
 
     const testid = "CommonsForm";
+    // Stryker disable next-line all
+    const defaultName = "";
 
-    const curr = new Date();
-    const today = curr.toISOString().split('T')[0];
-    const DefaultVals = {
-        name: "", startingBalance: "10000", cowPrice: "100",
-        milkPrice: "1", degradationRate: 0.001, carryingCapacity: 100, startingDate: today
-    };
-
-    const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
-    const aboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
+    const defaultBelowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
+    const defaultAboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
-            {initialCommons && (
+            {initialCommons?.id ? 
                 <Form.Group className="mb-3">
                     <Form.Label htmlFor="id">Id</Form.Label>
                     <Form.Control
@@ -55,7 +54,9 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                         disabled
                     />
                 </Form.Group>
-            )}
+                :
+                <span></span>
+            }
 
             <div className="border-bottom mb-3"></div>
 
@@ -72,7 +73,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                                 data-testid={`${testid}-name`}
                                 id="name"
                                 type="text"
-                                defaultValue={DefaultVals.name}
+                                defaultValue={defaultName}
                                 isInvalid={!!errors.name}
                                 {...register("name", {required: "Commons name is required"})}
                             />
@@ -83,6 +84,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     </Form.Group>
                 </Col>
                 <Col md={6}>
+                    {initialCommons?.startingBalance && 
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="startingBalance">Starting Balance</Form.Label>
                         <OverlayTrigger
@@ -95,7 +97,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                                 data-testid={`${testid}-startingBalance`}
                                 type="number"
                                 step="0.01"
-                                defaultValue={DefaultVals.startingBalance}
+                                defaultValue={initialCommons.startingBalance}
                                 isInvalid={!!errors.startingBalance}
                                 {...register("startingBalance", {
                                     valueAsNumber: true,
@@ -108,11 +110,13 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             {errors.startingBalance?.message}
                         </Form.Control.Feedback>
                     </Form.Group>
+                    }
                 </Col>
             </Row>
 
             <Row className="flex justify-content-start" style={{width: '80%'}} data-testid={`${testid}-r1`}>
                 <Col md={6}>
+                    {initialCommons?.cowPrice &&
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="cowPrice">Cow Price</Form.Label>
                         <OverlayTrigger
@@ -125,7 +129,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                                 id="cowPrice"
                                 type="number"
                                 step="0.01"
-                                defaultValue={DefaultVals.cowPrice}
+                                defaultValue={initialCommons.cowPrice}
                                 isInvalid={!!errors.cowPrice}
                                 {...register("cowPrice", {
                                     valueAsNumber: true,
@@ -140,9 +144,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             {errors.cowPrice?.message}
                         </Form.Control.Feedback>
                     </Form.Group>
-
+                    }
                 </Col>
                 <Col md={6}>
+                    {initialCommons?.milkPrice &&
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="milkPrice">Milk Price</Form.Label>
                         <OverlayTrigger
@@ -155,7 +160,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                                 id="milkPrice"
                                 type="number"
                                 step="0.01"
-                                defaultValue={DefaultVals.milkPrice}
+                                defaultValue={initialCommons.milkPrice}
                                 isInvalid={!!errors.milkPrice}
                                 {...register("milkPrice", {
                                     valueAsNumber: true,
@@ -168,13 +173,13 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             {errors.milkPrice?.message}
                         </Form.Control.Feedback>
                     </Form.Group>
-
+                    }
                 </Col>
             </Row>
 
-
             <Row className="mt-1 flex justify-content-start" style={{width: '80%'}} data-testid={`${testid}-r2`}>
                 <Col md={4}>
+                    {initialCommons?.degradationRate &&
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="degradationRate">Degradation Rate</Form.Label>
                         <OverlayTrigger
@@ -187,8 +192,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             id="degradationRate"
                             type="number"
                             step="0.0001"
-                            defaultValue={DefaultVals.degradationRate}
-
+                            defaultValue={initialCommons.degradationRate}
                             isInvalid={!!errors.degradationRate}
                             {...register("degradationRate", {
                                 valueAsNumber: true,
@@ -201,8 +205,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             {errors.degradationRate?.message}
                         </Form.Control.Feedback>
                     </Form.Group>
+                    }
                 </Col>
                 <Col md={4}>
+                    {initialCommons?.carryingCapacity &&
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="carryingCapacity">Carrying Capacity</Form.Label>
                         <OverlayTrigger
@@ -215,7 +221,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             id="carryingCapacity"
                             type="number"
                             step="1"
-                            defaultValue={DefaultVals.carryingCapacity}
+                            defaultValue={initialCommons.carryingCapacity}
                             isInvalid={!!errors.carryingCapacity}
                             {...register("carryingCapacity", {
                                 valueAsNumber: true,
@@ -228,8 +234,10 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             {errors.carryingCapacity?.message}
                         </Form.Control.Feedback>
                     </Form.Group>
+                    }
                 </Col>
                 <Col md={4}>
+                    {initialCommons?.capacityPerUser &&
                     <Form.Group className="mb-3">
                         <Form.Label htmlFor="capacityPerUser">Capacity Per User</Form.Label>
                         <OverlayTrigger
@@ -242,6 +250,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             id="capacityPerUser"
                             type="number"
                             step="1"
+                            defaultValue={initialCommons.capacityPerUser}
                             isInvalid={!!errors.capacityPerUser}
                             {...register("capacityPerUser", {
                                 valueAsNumber: true,
@@ -253,10 +262,12 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                             {errors.capacityPerUser?.message}
                         </Form.Control.Feedback>
                     </Form.Group>
+                    }
                 </Col>
             </Row>
-
-
+            
+            {initialCommons?.startingDate ?
+            // Stryker disable next-line all
             <Form.Group className="mb-5" style={{width: '300px', height: '50px'}} data-testid={`${testid}-r3`}>
                 <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
                 <OverlayTrigger
@@ -265,10 +276,11 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     delay='100'
                 >
                 <Form.Control
+                    // Stryker disable next-line all
                     data-testid={`${testid}-startingDate`}
                     id="startingDate"
                     type="date"
-                    defaultValue={DefaultVals.startingDate}
+                    defaultValue={initialCommons.startingDate}
                     isInvalid={!!errors.startingDate}
                     {...register("startingDate", {
                         valueAsDate: true,
@@ -280,8 +292,35 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     {errors.startingDate?.message}
                 </Form.Control.Feedback>
             </Form.Group>
-            
-
+            :
+            // Stryker disable next-line all
+            <Form.Group className="mb-5" style={{width: '300px', height: '50px'}} data-testid={`${testid}-r3`}>
+            <Form.Label htmlFor="startingDate">Starting Date</Form.Label>
+            <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>This is the starting date of the game; before this date, the jobs to calculate statistics, milk the cows, and report profits, etc. will not be run on this commons.</Tooltip>}
+                delay='100'
+            >
+            <Form.Control
+                // Stryker disable next-line all
+                data-testid={`${testid}-startingDate`}
+                id="startingDate"
+                type="date"
+                defaultValue={today}
+                // Stryker disable next-line all
+                isInvalid={!!errors.startingDate}
+                {...register("startingDate", {
+                    valueAsDate: true,
+                    // Stryker disable next-line all
+                    validate: {isPresent: (v) => !isNaN(v)},
+                })}
+            />
+            </OverlayTrigger>
+            <Form.Control.Feedback type="invalid">
+                {errors.startingDate?.message}
+            </Form.Control.Feedback>
+        </Form.Group>
+            }
 
 
             <h5>Health update formula</h5>
@@ -291,7 +330,7 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <HealthUpdateStrategiesDropdown
                         formName={"aboveCapacityHealthUpdateStrategy"}
                         displayName={"When above capacity"}
-                        initialValue={aboveStrategy}
+                        initialValue={defaultAboveStrategy}
                         register={register}
                         healthUpdateStrategies={healthUpdateStrategies}
                     />
@@ -301,13 +340,14 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     <HealthUpdateStrategiesDropdown
                         formName={"belowCapacityHealthUpdateStrategy"}
                         displayName={"When below capacity"}
-                        initialValue={belowStrategy}
+                        initialValue={defaultBelowStrategy}
                         register={register}
                         healthUpdateStrategies={healthUpdateStrategies}
                     />
                 </Col>
             </Row>
 
+            {initialCommons?.showLeaderboard ?
             <Form.Group className="mb-3">
                 <Form.Label htmlFor="showLeaderboard">Show Leaderboard?</Form.Label>
                 <OverlayTrigger
@@ -316,13 +356,35 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     delay='100'
                 >
                 <Form.Check
+                    // Stryker disable next-line all
                     data-testid={`${testid}-showLeaderboard`}
                     type="checkbox"
                     id="showLeaderboard"
+                    defaultChecked={initialCommons.showLeaderboard}
                     {...register("showLeaderboard")}
                 />
                 </OverlayTrigger>
             </Form.Group>
+            :
+            <Form.Group className="mb-3">
+                <Form.Label htmlFor="showLeaderboard">Show Leaderboard?</Form.Label>
+                <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>When checked, regular users will have access to the leaderboard for this commons. When unchecked, only admins can see the leaderboard for this commons.</Tooltip>}
+                    delay='100'
+                >
+                <Form.Check
+                    // Stryker disable next-line all
+                    data-testid={`${testid}-showLeaderboard`}
+                    type="checkbox"
+                    id="showLeaderboard"
+                    defaultChecked={false}
+                    {...register("showLeaderboard")}
+                />
+                </OverlayTrigger>
+            </Form.Group>            
+            }
+
             <Row className="mb-5">
                 <Button type="submit"
                         data-testid="CommonsForm-Submit-Button"

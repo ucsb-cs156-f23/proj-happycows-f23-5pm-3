@@ -1,4 +1,17 @@
 const commonsFixtures = {
+    defaultCommonValues: [
+        {       
+            "name": "",
+            "startingBalance": 10000,
+            "cowPrice": 100,
+            "milkPrice": 1,
+            "degradationRate": .001,
+            "capacityPerUser": 5,
+            "carryingCapacity": 1000,
+            "belowCapacityHealthUpdateStrategy": "Constant",
+            "aboveCapacityHealthUpdateStrategy": "Linear"  
+        }      
+    ],
     threeCommons: [
         {
             "id": 5,
