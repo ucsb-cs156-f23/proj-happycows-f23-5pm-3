@@ -39,7 +39,8 @@ public class MilkTheCowsJob implements JobContextConsumer {
 
         for (Commons commons : allCommons) {
             String name = commons.getName();
-            if(commons.gameInProgress()){
+            if(commons.gameInProgress()) {
+
                 double milkPrice = commons.getMilkPrice();
                 ctx.log("Milking cows for Commons: " + name + ", Milk Price: " + formatDollars(milkPrice));
 

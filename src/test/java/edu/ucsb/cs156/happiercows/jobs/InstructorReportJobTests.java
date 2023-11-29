@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -33,8 +34,9 @@ public class InstructorReportJobTests {
     void test_log_output() throws Exception {
 
         // Arrange
-
-        Commons commons= Commons.builder().id(17L).name("CS156").build();
+         LocalDateTime startDate = LocalDateTime.parse("2021-03-05T15:50:10");
+        LocalDateTime endDate = LocalDateTime.parse("3000-04-08T15:50:10");
+        Commons commons= Commons.builder().id(17L).name("CS156").startingDate(startDate).lastDay(endDate).build();
         Report report = Report.builder().id(17L).build();
         
         Job jobStarted = Job.builder().build();
@@ -60,4 +62,71 @@ public class InstructorReportJobTests {
 
         assertEquals(expected, jobStarted.getLog());
     }
+
+    @Test
+    void before_start_date() throws Exception {
+
+        // Arrange
+        LocalDateTime startDate = LocalDateTime.parse("3000-03-05T15:50:10");
+        LocalDateTime endDate = LocalDateTime.parse("3000-04-08T15:50:10");
+        Commons commons= Commons.builder().id(17L).name("CS156").startingDate(startDate).lastDay(endDate).build();
+        Report report = Report.builder().id(17L).build();
+        
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+      
+        when(commonsRepository.findAll()).thenReturn(Arrays.asList(commons));      
+        when(reportService.createReport(17L)).thenReturn(report);
+
+        // Act
+        InstructorReportJob instructorReportJob = new InstructorReportJob(reportService, commonsRepository);
+        instructorReportJob.accept(ctx);
+
+        // Assert
+
+        // verify(commonsRepository).findAll();
+        // verify(reportService).createReport(17L);
+        
+        String expected = """
+            Starting instructor report...
+            Game is not currently in progress, report will not be filed in this common.
+            Instructor report done!""";
+
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+
+     @Test
+    void after_end_date() throws Exception {
+
+        // Arrange
+        LocalDateTime startDate = LocalDateTime.parse("2020-03-05T15:50:10");
+        LocalDateTime endDate = LocalDateTime.parse("2020-04-08T15:50:10");
+        Commons commons= Commons.builder().id(17L).name("CS156").startingDate(startDate).lastDay(endDate).build();
+        Report report = Report.builder().id(17L).build();
+        
+        Job jobStarted = Job.builder().build();
+        JobContext ctx = new JobContext(null, jobStarted);
+      
+        when(commonsRepository.findAll()).thenReturn(Arrays.asList(commons));      
+        when(reportService.createReport(17L)).thenReturn(report);
+
+        // Act
+        InstructorReportJob instructorReportJob = new InstructorReportJob(reportService, commonsRepository);
+        instructorReportJob.accept(ctx);
+
+        // Assert
+
+        // verify(commonsRepository).findAll();
+        // verify(reportService).createReport(17L);
+        
+        String expected = """
+            Starting instructor report...
+            Game is not currently in progress, report will not be filed in this common.
+            Instructor report done!""";
+
+        assertEquals(expected, jobStarted.getLog());
+    }
+
+    
 }
