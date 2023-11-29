@@ -38,22 +38,8 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     // Stryker disable next-line all
     const defaultName = "";
 
-<<<<<<< HEAD
     const defaultBelowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
     const defaultAboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
-=======
-    const curr = new Date();
-    const today = curr.toISOString().split('T')[0];
-    const nextD = new Date(curr.getFullYear(), curr.getMonth() + 3, curr.getDate());
-    const nextDString = nextD.toISOString().split('T')[0];
-    const DefaultVals = {
-        name: "", startingBalance: "10000", cowPrice: "100",
-        milkPrice: "1", degradationRate: 0.001, carryingCapacity: 100, startingDate: today, lastDay: nextDString
-    };
-
-    const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
-    const aboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
->>>>>>> main
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
