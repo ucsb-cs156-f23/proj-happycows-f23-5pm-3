@@ -16,14 +16,6 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         modifiedCommons.startingDate = modifiedCommons.startingDate.split("T")[0];
     }
 
-<<<<<<< HEAD
-=======
-    if (modifiedCommons.lastDay) {
-        modifiedCommons.lastDay = modifiedCommons.lastDay.split("T")[0];
-    }
-
-    // Stryker disable all
->>>>>>> main
     const {
         register,
         formState: {errors},
