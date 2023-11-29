@@ -39,13 +39,8 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
             Commons commons = commonsPlus.getCommons();
             //ctx.log(String.format("commoms.startDate=%s commons.lastDay=%s", commons.getStartingDate().toString(),commons.getLastDay().toString()));
-            if(commons.gameInProgress()){
-                
-                runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
+            runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
             
-            } else{
-                ctx.log("Game is not currently in progress, cow health will not be updated for this commons.");
-            }
         }
 
         ctx.log("Cow health has been updated!");
