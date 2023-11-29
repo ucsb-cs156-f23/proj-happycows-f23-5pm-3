@@ -16,10 +16,19 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
         modifiedCommons.startingDate = modifiedCommons.startingDate.split("T")[0];
     }
 
+<<<<<<< HEAD
+=======
+    if (modifiedCommons.lastDay) {
+        modifiedCommons.lastDay = modifiedCommons.lastDay.split("T")[0];
+    }
+
+    // Stryker disable all
+>>>>>>> main
     const {
         register,
         formState: {errors},
         handleSubmit,
+        getValues
     } = useForm(
         // modifiedCommons is guaranteed to be defined (initialCommons or {})
         {defaultValues: modifiedCommons}
@@ -37,8 +46,22 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
     // Stryker disable next-line all
     const defaultName = "";
 
+<<<<<<< HEAD
     const defaultBelowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
     const defaultAboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
+=======
+    const curr = new Date();
+    const today = curr.toISOString().split('T')[0];
+    const nextD = new Date(curr.getFullYear(), curr.getMonth() + 3, curr.getDate());
+    const nextDString = nextD.toISOString().split('T')[0];
+    const DefaultVals = {
+        name: "", startingBalance: "10000", cowPrice: "100",
+        milkPrice: "1", degradationRate: 0.001, carryingCapacity: 100, startingDate: today, lastDay: nextDString
+    };
+
+    const belowStrategy = initialCommons?.belowCapacityStrategy || healthUpdateStrategies?.defaultBelowCapacity;
+    const aboveStrategy = initialCommons?.aboveCapacityStrategy || healthUpdateStrategies?.defaultAboveCapacity;
+>>>>>>> main
 
     return (
         <Form onSubmit={handleSubmit(submitAction)}>
@@ -284,7 +307,11 @@ function CommonsForm({initialCommons, submitAction, buttonLabel = "Create"}) {
                     isInvalid={!!errors.startingDate}
                     {...register("startingDate", {
                         valueAsDate: true,
-                        validate: {isPresent: (v) => !isNaN(v)},
+                        validate: {
+                            isPresent: (v) => !isNaN(v) || "Start date is required" , 
+                            // Stryker disable next-line all
+                            crossVal: () => Number(getValues("startingDate")) <= Number(getValues("lastDay")) || "Start date must be on or before last day"}, 
+                
                     })}
                 />
                 </OverlayTrigger>
