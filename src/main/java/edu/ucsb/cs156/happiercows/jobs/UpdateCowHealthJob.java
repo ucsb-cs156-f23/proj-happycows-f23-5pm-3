@@ -38,9 +38,13 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
 
             Commons commons = commonsPlus.getCommons();
+            if(!commons.gameInProgress()){
+                ctx.log("Game is not currently in progress, cow health will not be updated for this commons.");
             
-            runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
-            
+            } else{
+                //ctx.log("Game is not currently in progress, cow health will not be updated for this commons.");
+                runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
+            }
         }
 
         ctx.log("Cow health has been updated!");
@@ -76,6 +80,10 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                 ctx.log("No users in this commons, skipping");
                 return;
             }
+            // if(!commons.gameInProgress()) {
+            //     ctx.log("Commons test commons is not currently in progress, cows will not be milked in this commons.");
+                
+            // }
 
             int carryingCapacity = commonsPlus.getEffectiveCapacity();
             Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());

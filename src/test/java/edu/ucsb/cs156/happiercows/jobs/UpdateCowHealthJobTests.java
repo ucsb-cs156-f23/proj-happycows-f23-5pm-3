@@ -22,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -58,7 +59,8 @@ public class UpdateCowHealthJobTests {
                         .cowPrice(10)
                         .milkPrice(2)
                         .startingBalance(300)
-                        .startingDate(LocalDateTime.now())
+                        .startingDate(LocalDateTime.parse("2022-03-05T15:50:10"))
+                        .lastDay(LocalDateTime.parse("3000-03-07T15:50:10"))
                         .capacityPerUser(0)
                         .carryingCapacity(100)
                         .degradationRate(1)
@@ -386,4 +388,144 @@ public class UpdateCowHealthJobTests {
                 Assertions.assertEquals("Error calling getNumUsers(117)",
                                 thrown.getMessage());
         }
+
+        @Test
+        void test_updating_if_game_start_has_not_passed() throws Exception {
+
+                // Arrange
+                Job jobStarted = Job.builder().build();
+                JobContext ctx = new JobContext(null, jobStarted);
+                LocalDateTime startDate = LocalDateTime.parse("3000-03-05T15:50:10");
+                LocalDateTime endDate = LocalDateTime.parse("3000-04-08T15:50:10");
+
+                UserCommons origUserCommons = UserCommons
+                                .builder()
+                                .user(user)
+                                .commons(commons)
+                                .totalWealth(300)
+                                .numOfCows(5)
+                                .cowHealth(-1.0)
+                                .cowDeaths(0)
+                                .build();
+
+                Commons testCommons = Commons
+                                .builder()
+                                .name("test commons")
+                                .cowPrice(1)
+                                .milkPrice(2)
+                                .startingBalance(300)
+                                .startingDate(startDate)
+                                .lastDay(endDate)
+                                .capacityPerUser(0)
+                                .carryingCapacity(100)
+                                .degradationRate(1)
+                                .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
+                                .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
+                                .build();
+
+                UserCommons newUserCommons = UserCommons
+                                .builder()
+                                .user(user)
+                                .commons(commons)
+                                .totalWealth(300 -testCommons.getCowPrice())
+                                .numOfCows(5)
+                                .cowHealth(-1.0)
+                                .cowDeaths(0)
+                                .build();
+
+                Commons commonsTemp[] = { testCommons };
+                UserCommons userCommonsTemp[] = { origUserCommons };
+                when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+                when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+                                .thenReturn(Arrays.asList(userCommonsTemp));
+                when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(101)));
+                when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+                // Act
+                UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+                         userRepository, commonsPlusBuilderService);
+
+                updateCowHealthJob.accept(ctx);
+
+                // Assert
+
+                String expected = """
+                               Updating cow health...
+                               Game is not currently in progress, cow health will not be updated for this commons.
+                               Cow health has been updated!""";
+
+                assertEquals(expected, jobStarted.getLog());
+                assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
+        }
+
+        // @Test
+        // void test_updating_if_game_end_has_passed() throws Exception {
+
+        //         // Arrange
+        //         Job jobStarted = Job.builder().build();
+        //         JobContext ctx = new JobContext(null, jobStarted);
+        //         LocalDateTime startDate = LocalDateTime.parse("2020-03-05T15:50:10");
+        //         LocalDateTime endDate = LocalDateTime.parse("2020-04-08T15:50:10");
+
+        //         UserCommons origUserCommons = UserCommons
+        //                         .builder()
+        //                         .user(user)
+        //                         .commons(commons)
+        //                         .totalWealth(300)
+        //                         .numOfCows(5)
+        //                         .cowHealth(-1.0)
+        //                         .cowDeaths(0)
+        //                         .build();
+
+        //         Commons testCommons = Commons
+        //                         .builder()
+        //                         .name("test commons")
+        //                         .cowPrice(1)
+        //                         .milkPrice(2)
+        //                         .startingBalance(300)
+        //                         .startingDate(startDate)
+        //                         .lastDay(endDate)
+        //                         .capacityPerUser(0)
+        //                         .carryingCapacity(100)
+        //                         .degradationRate(1)
+        //                         .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
+        //                         .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
+        //                         .build();
+
+        //         UserCommons newUserCommons = UserCommons
+        //                         .builder()
+        //                         .user(user)
+        //                         .commons(commons)
+        //                         .totalWealth(300 -testCommons.getCowPrice())
+        //                         .numOfCows(5)
+        //                         .cowHealth(-1.0)
+        //                         .cowDeaths(0)
+        //                         .build();
+
+        //         Commons commonsTemp[] = { testCommons };
+        //         UserCommons userCommonsTemp[] = { origUserCommons };
+        //         when(commonsRepository.findAll()).thenReturn(Arrays.asList(commonsTemp));
+        //         when(userCommonsRepository.findByCommonsId(testCommons.getId()))
+        //                         .thenReturn(Arrays.asList(userCommonsTemp));
+        //         when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(101)));
+        //         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        //         // Act
+        //         UpdateCowHealthJob updateCowHealthJob = new UpdateCowHealthJob(commonsRepository, userCommonsRepository,
+        //                  userRepository, commonsPlusBuilderService);
+
+        //         updateCowHealthJob.accept(ctx);
+
+        //         // Assert
+
+        //         String expected = """
+        //                        Updating cow health...
+        //                        Game is not currently in progress, cow health will not be updated for this commons.
+        //                        Cow health has been updated!""";
+
+        //         assertEquals(expected, jobStarted.getLog());
+        //         assertEquals(origUserCommons.getCowHealth(), newUserCommons.getCowHealth());
+        // }
+
+       
 }
