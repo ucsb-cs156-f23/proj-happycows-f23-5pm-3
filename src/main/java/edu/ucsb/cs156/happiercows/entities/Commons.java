@@ -22,7 +22,6 @@ public class Commons {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String name;
     private double cowPrice;
     private double milkPrice;
@@ -35,22 +34,17 @@ public class Commons {
     private int carryingCapacity;
     private double degradationRate;
     
-
     public boolean gameInProgress(){
         boolean output = (startingDate.isBefore(LocalDateTime.now()) && lastDay.isAfter(LocalDateTime.now()));
         return output;
       }
 
-
-
-        // these defaults match old behavior
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private CowHealthUpdateStrategies belowCapacityHealthUpdateStrategy = CowHealthUpdateStrategies.DEFAULT_BELOW_CAPACITY;
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private CowHealthUpdateStrategies aboveCapacityHealthUpdateStrategy = CowHealthUpdateStrategies.DEFAULT_ABOVE_CAPACITY;
-
 
     @OneToMany(mappedBy = "commons", cascade = CascadeType.REMOVE)
     @JsonIgnore

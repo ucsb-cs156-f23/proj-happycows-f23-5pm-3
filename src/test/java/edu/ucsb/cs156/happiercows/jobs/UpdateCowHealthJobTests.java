@@ -18,12 +18,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -69,8 +67,6 @@ public class UpdateCowHealthJobTests {
                         .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
                         .build();
 
-
-
         private final UserCommons userCommons = UserCommons
                         .builder()
                         .user(user)
@@ -79,8 +75,6 @@ public class UpdateCowHealthJobTests {
                         .numOfCows(1)
                         .cowHealth(10.0)
                         .build();
-
-
 
         private final Job job = Job.builder().build();
         private final JobContext ctx = new JobContext(null, job);
@@ -162,7 +156,6 @@ public class UpdateCowHealthJobTests {
                 runUpdateCowHealthJob();
 
                 assertEquals(expectedNewHealth, userCommons.getCowHealth());
-
                 String expected = """
                                 Updating cow health...
                                 Commons test commons, degradationRate: 1.0, effectiveCapacity: 100
@@ -296,7 +289,6 @@ public class UpdateCowHealthJobTests {
                                 .cowDeaths(0)
                                 .build();
                 commons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
-
                 CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(5).totalUsers(1).build();
 
                 List<CommonsPlus> commonsPlusList = List.of(commonsPlus);
@@ -310,9 +302,7 @@ public class UpdateCowHealthJobTests {
                 when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(99));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
                 when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(1));
-
                 runUpdateCowHealthJob();
-
                 String expected = """
                                 Updating cow health...
                                 Commons test commons, degradationRate: 1.0, effectiveCapacity: 100
@@ -390,7 +380,4 @@ public class UpdateCowHealthJobTests {
                                 thrown.getMessage());
         }
 
-     
-
-       
 }

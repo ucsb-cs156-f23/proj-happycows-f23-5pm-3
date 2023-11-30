@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form";
 import { useBackend } from "main/utils/useBackend";
 import CommonsSelect from "main/components/Commons/CommonsSelect";
 
-
 function UpdateCowHealthForm( { submitAction, testid = "UpdateCowHealthForm" } ) {
-
   // Stryker restore all
 
   const { data: commonsAll } = useBackend(
@@ -16,12 +14,9 @@ function UpdateCowHealthForm( { submitAction, testid = "UpdateCowHealthForm" } )
   );
 
   const allCommonsProp = {"id":0,"name":"All Commons"}
-  
   const commons = [allCommonsProp, ...commonsAll]
-
   const [selectedCommons, setSelectedCommons] = useState(null);
   const [selectedCommonsName, setSelectedCommonsName] = useState(null);
-
   const {
     handleSubmit,
   } = useForm();

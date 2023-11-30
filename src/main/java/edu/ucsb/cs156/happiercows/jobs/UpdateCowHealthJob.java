@@ -1,5 +1,4 @@
 package edu.ucsb.cs156.happiercows.jobs;
-
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.CommonsPlus;
 import edu.ucsb.cs156.happiercows.entities.User;
@@ -29,24 +28,18 @@ public class UpdateCowHealthJob implements JobContextConsumer {
     @Override
     public void accept(JobContext ctx) throws Exception {
         ctx.log("Updating cow health...");
-
-
         Iterable<Commons> allCommons = commonsRepository.findAll();
         Iterable<CommonsPlus> allCommonsPlus = commonsPlusBuilderService.convertToCommonsPlus(allCommons);
 
         for (CommonsPlus commonsPlus : allCommonsPlus) {
-
-
             Commons commons = commonsPlus.getCommons();
             //ctx.log(String.format("commoms.startDate=%s commons.lastDay=%s", commons.getStartingDate().toString(),commons.getLastDay().toString()));
             runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
             
         }
-
         ctx.log("Cow health has been updated!");
     }
 
-    // exposed for testing
     public static double calculateNewCowHealthUsingStrategy(
             CowHealthUpdateStrategy strategy,
             CommonsPlus commonsPlus,
@@ -77,7 +70,6 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                 return;
             }
             
-
             int carryingCapacity = commonsPlus.getEffectiveCapacity();
             Iterable<UserCommons> allUserCommons = userCommonsRepository.findByCommonsId(commons.getId());
 
