@@ -105,7 +105,7 @@ import java.util.Optional;
     
     @Operation(summary = &quot;Get a commons object containing the default values&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
-    @GetMapping(&quot;/default&quot;)
+    @GetMapping(&quot;/defaults&quot;)
     public ResponseEntity&lt;String&gt; getDefaultCommons() throws JsonProcessingException {
 <span class="fc" id="L110">        var builder = Commons.builder()</span>
 <span class="fc" id="L111">            .name(&quot;&quot;)</span>
