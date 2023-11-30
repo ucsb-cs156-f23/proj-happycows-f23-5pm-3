@@ -90,6 +90,5 @@ public class UpdateCowHealthJob implements JobContextConsumer {
                 ctx.log(" old cow health: " + oldHealth + ", new cow health: " + userCommons.getCowHealth());
                 userCommonsRepository.save(userCommons);
             }
-
     }
 }
