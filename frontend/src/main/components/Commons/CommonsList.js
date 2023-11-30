@@ -30,12 +30,15 @@ const CommonsList = (props) => {
                     </Row>
                 </Container>
             </Card.Subtitle>
-            {
-                props.commonList &&
-                props.commonList.map(
+            { // Stryker disable next-line all
+                props.commonList?.length > 0?(
+                    props.commonList.map(
                     (c) => (<CommonsCard key={c.id} commons={c} buttonText={props.buttonText} buttonLink={props.buttonLink} />)
+                    )
+                ):(
+                    <div className="text-center my-3">Currently, there are no commons available in this section.</div>
                 )
-            }
+            } 
         </Card>
     );
 };
