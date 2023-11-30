@@ -33,7 +33,6 @@ public class UpdateCowHealthJob implements JobContextConsumer {
 
         for (CommonsPlus commonsPlus : allCommonsPlus) {
             Commons commons = commonsPlus.getCommons();
-            //ctx.log(String.format("commoms.startDate=%s commons.lastDay=%s", commons.getStartingDate().toString(),commons.getLastDay().toString()));
             runUpdateJobInCommons(commons, commonsPlus, commonsPlusBuilderService, commonsRepository, userCommonsRepository, ctx);
             
         }
