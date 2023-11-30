@@ -8,6 +8,7 @@ import AdminCreateCommonsPage from "main/pages/AdminCreateCommonsPage";
 import {apiCurrentUserFixtures} from "fixtures/currentUserFixtures";
 import {systemInfoFixtures} from "fixtures/systemInfoFixtures";
 import healthUpdateStrategyListFixtures from "../../fixtures/healthUpdateStrategyListFixtures";
+import commonsFixtures from "fixtures/commonsFixtures";
 
 const mockedNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
@@ -39,6 +40,7 @@ describe("AdminCreateCommonsPage tests", () => {
         axiosMock.onGet("/api/currentUser").reply(200, apiCurrentUserFixtures.userOnly);
         axiosMock.onGet("/api/systemInfo").reply(200, systemInfoFixtures.showingNeither);
 
+        axiosMock.onGet("/api/commons/defaults").reply(200, commonsFixtures.defaultCommonValues[0]);
         axiosMock.onGet("/api/commons/all-health-update-strategies")
             .reply(200, healthUpdateStrategyListFixtures.simple);
     });
@@ -51,7 +53,6 @@ describe("AdminCreateCommonsPage tests", () => {
                 </MemoryRouter>
             </QueryClientProvider>
         );
-
         expect(await screen.findByText("Create Commons")).toBeInTheDocument();
     });
 
@@ -67,9 +68,9 @@ describe("AdminCreateCommonsPage tests", () => {
             "degradationRate": 30.4,
             "capacityPerUser": 10,
             "carryingCapacity": 25,
-            "aboveCapacityHealthUpdateStrategy": "strat2",
-            "belowCapacityHealthUpdateStrategy": "strat3",
             "showLeaderboard": false,
+            "aboveCapacityHealthUpdateStrategy": "strat2",
+            "belowCapacityHealthUpdateStrategy": "strat3"
         });
 
         render(
@@ -105,7 +106,7 @@ describe("AdminCreateCommonsPage tests", () => {
         fireEvent.change(degradationRateField, { target: { value: '30.4' } })
         fireEvent.change(capacityPerUserField, { target: { value: '10' } })
         fireEvent.change(carryingCapacityField, { target: { value: '25' } })
-        fireEvent.change(showLeaderboardField, { target: { value: true } })
+        fireEvent.change(showLeaderboardField, { target: { value: false } })
 
         fireEvent.change(aboveCapacityHealthUpdateStrategyField, { target: {value: 'strat2' } })
         fireEvent.change(belowCapacityHealthUpdateStrategyField, { target: {value: 'strat3' } })
@@ -123,13 +124,13 @@ describe("AdminCreateCommonsPage tests", () => {
             cowPrice: 10,
             milkPrice: 5,
             degradationRate: 30.4,
-            carryingCapacity: 25,
             capacityPerUser: 10,
+            carryingCapacity: 25,
+            belowCapacityHealthUpdateStrategy: "strat3",
+            aboveCapacityHealthUpdateStrategy: "strat2",
             startingDate: '2022-03-05T00:00:00.000Z',
             lastDay: '2022-06-05T00:00:00.000Z',
             showLeaderboard: false,
-            aboveCapacityHealthUpdateStrategy: "strat2",
-            belowCapacityHealthUpdateStrategy: "strat3",
         };
 
         expect(axiosMock.history.post[0].data).toEqual( JSON.stringify(expectedCommons) );
@@ -137,13 +138,18 @@ describe("AdminCreateCommonsPage tests", () => {
         expect(mockToast).toBeCalledWith(<div>Commons successfully created!
             <br />id: 5
             <br />name: My New Commons
-            <br />startDate: 2022-03-05T00:00:00
-            <br />lastDay: 2022-06-05T00:00:00
+            <br />startingBalance: 500
             <br />cowPrice: 10
-            <br />capacityPerUser: 10
+            <br />milkPrice: 5
+            <br />degradationRate: 30.4
             <br />carryingCapacity: 25
+            <br />capacityPerUser: 10
+            <br />startDate: 2022-03-05T00:00:00
+            <br />aboveCapacityHealthUpdateStrategy: strat2
+            <br />belowCapacityHealthUpdateStrategy: strat3
+            <br />showLeaderboard: false
         </div>);
-
+        
         expect(mockedNavigate).toBeCalledWith({"to": "/"});
     });
 });

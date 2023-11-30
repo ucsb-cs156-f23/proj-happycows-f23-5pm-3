@@ -596,7 +596,7 @@ public class CommonsControllerTests extends ControllerTestCase {
     @WithMockUser(roles = {"USER"})
     @Test
     public void getDefaultCommons_valid() throws Exception {
-        MvcResult response = mockMvc.perform(get("/api/commons/default"))
+        MvcResult response = mockMvc.perform(get("/api/commons/defaults"))
                 .andExpect(status().isOk()).andReturn();
         
         Commons expectedDefaultCommons = Commons.builder()
