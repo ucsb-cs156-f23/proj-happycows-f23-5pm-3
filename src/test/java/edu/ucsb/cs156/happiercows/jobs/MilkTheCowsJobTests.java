@@ -1,5 +1,4 @@
 package edu.ucsb.cs156.happiercows.jobs;
-
 import edu.ucsb.cs156.happiercows.entities.Commons;
 import edu.ucsb.cs156.happiercows.entities.User;
 import edu.ucsb.cs156.happiercows.entities.UserCommons;
@@ -57,7 +56,6 @@ public class MilkTheCowsJobTests {
             .degradationRate(0.01)
             .build();
 
-
     @Test
     void test_log_output_no_commons() throws Exception {
 
@@ -66,13 +64,10 @@ public class MilkTheCowsJobTests {
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
 
-        // Act
         MilkTheCowsJob milkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
                 userRepository, profitRepository);
 
         milkTheCowsJob.accept(ctx);
-
-        // Assert
 
         String expected = """
                 Starting to milk the cows
@@ -84,7 +79,6 @@ public class MilkTheCowsJobTests {
     @Test
     void test_log_output_with_commons_and_user_commons() throws Exception {
 
-        // Arrange
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
 
@@ -159,7 +153,6 @@ public class MilkTheCowsJobTests {
         MilkTheCowsJob.milkCows(ctx, testCommons, origUserCommons, profitRepository, userCommonsRepository);
 
         // Assert
-
         String expected = """
                 User: Chris Gaucho, numCows: 1, cowHealth: 10.0, totalWealth: $300.00
                 Profit for user: Chris Gaucho is: $0.20, newWealth: $300.20""";
@@ -206,12 +199,10 @@ public class MilkTheCowsJobTests {
         when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        // Act
         MilkTheCowsJob MilkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
                 userRepository, profitRepository);
         MilkTheCowsJob.accept(ctx);
 
-        // Assert
 
         String expected = """
                 Starting to milk the cows
@@ -221,11 +212,9 @@ public class MilkTheCowsJobTests {
         assertEquals(expected, jobStarted.getLog());
     }
 
-    
     @Test
     void test_cannot_milk_cows_when_after_end_date() throws Exception {
-            
-        // Arrange
+
         Job jobStarted = Job.builder().build();
         JobContext ctx = new JobContext(null, jobStarted);
         LocalDateTime startDate = LocalDateTime.parse("2022-03-05T15:50:10");
@@ -260,12 +249,9 @@ public class MilkTheCowsJobTests {
         when(commonsRepository.getNumCows(testCommons.getId())).thenReturn(Optional.of(Integer.valueOf(1)));
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        // Act
         MilkTheCowsJob MilkTheCowsJob = new MilkTheCowsJob(commonsRepository, userCommonsRepository,
                 userRepository, profitRepository);
         MilkTheCowsJob.accept(ctx);
-
-        // Assert
 
         String expected = """
                 Starting to milk the cows
