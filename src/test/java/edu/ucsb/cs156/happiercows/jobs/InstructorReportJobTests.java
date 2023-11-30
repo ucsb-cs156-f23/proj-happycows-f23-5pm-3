@@ -86,7 +86,6 @@ public class InstructorReportJobTests {
      @Test
     void after_end_date() throws Exception {
 
-        // Arrange
         LocalDateTime startDate = LocalDateTime.parse("2020-03-05T15:50:10");
         LocalDateTime endDate = LocalDateTime.parse("2020-04-08T15:50:10");
         Commons commons= Commons.builder().id(17L).name("CS156").startingDate(startDate).lastDay(endDate).build();
