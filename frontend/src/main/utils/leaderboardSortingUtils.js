@@ -1,14 +1,7 @@
 
 export function sortByWealth(userCommonsArray, returnArraySize = userCommonsArray.length){
   return userCommonsArray.sort((a, b) => {
-    if (a < b) {
-      return b.totalWealth;
-    }
-    if (a > b) {
-      return a.totalWealth;
-    }
-    return 0;
-    //return b.totalWealth - a.totalWealth;
+    return b.totalWealth - a.totalWealth;
   }).slice(0, returnArraySize);
 }
 
