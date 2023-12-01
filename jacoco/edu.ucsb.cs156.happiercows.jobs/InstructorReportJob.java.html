@@ -24,12 +24,17 @@ public class InstructorReportJob implements JobContextConsumer {
 <span class="fc" id="L24">        Iterable&lt;Commons&gt; allCommons = commonsRepository.findAll();</span>
 
 <span class="fc bfc" id="L26" title="All 2 branches covered.">        for (Commons commons : allCommons) {</span>
-<span class="fc" id="L27">            ctx.log(String.format(&quot;Starting Commons id=%d (%s)...&quot;, commons.getId(), commons.getName()));</span>
-<span class="fc" id="L28">            Report report = reportService.createReport(commons.getId());</span>
-<span class="fc" id="L29">            ctx.log(String.format(&quot;Report %d for commons id=%d (%s) finished.&quot;, report.getId(), commons.getId(),</span>
-<span class="fc" id="L30">                    commons.getName()));</span>
-<span class="fc" id="L31">        }</span>
-<span class="fc" id="L32">        ctx.log(&quot;Instructor report done!&quot;);</span>
-<span class="fc" id="L33">    }</span>
+            
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            if(commons.gameInProgress()){</span>
+<span class="fc" id="L29">                ctx.log(String.format(&quot;Starting Commons id=%d (%s)...&quot;, commons.getId(), commons.getName()));</span>
+<span class="fc" id="L30">                Report report = reportService.createReport(commons.getId());</span>
+<span class="fc" id="L31">                ctx.log(String.format(&quot;Report %d for commons id=%d (%s) finished.&quot;, report.getId(), commons.getId(),</span>
+<span class="fc" id="L32">                commons.getName()));</span>
+<span class="fc" id="L33">            }else {</span>
+<span class="fc" id="L34">                ctx.log(&quot;Game is not currently in progress, report will not be filed in this common.&quot;);</span>
+            }       
+<span class="fc" id="L36">        }</span>
+<span class="fc" id="L37">        ctx.log(&quot;Instructor report done!&quot;);</span>
+<span class="fc" id="L38">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
