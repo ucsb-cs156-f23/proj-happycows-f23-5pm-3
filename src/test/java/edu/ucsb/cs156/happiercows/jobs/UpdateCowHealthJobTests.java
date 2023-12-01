@@ -18,16 +18,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -58,15 +58,14 @@ public class UpdateCowHealthJobTests {
                         .cowPrice(10)
                         .milkPrice(2)
                         .startingBalance(300)
-                        .startingDate(LocalDateTime.now())
+                        .startingDate(LocalDateTime.parse("2022-03-05T15:50:10"))
+                        .lastDay(LocalDateTime.parse("3000-03-07T15:50:10"))
                         .capacityPerUser(0)
                         .carryingCapacity(100)
                         .degradationRate(1)
                         .belowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
                         .aboveCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Noop)
                         .build();
-
-
 
         private final UserCommons userCommons = UserCommons
                         .builder()
@@ -76,8 +75,6 @@ public class UpdateCowHealthJobTests {
                         .numOfCows(1)
                         .cowHealth(10.0)
                         .build();
-
-
 
         private final Job job = Job.builder().build();
         private final JobContext ctx = new JobContext(null, job);
@@ -159,7 +156,6 @@ public class UpdateCowHealthJobTests {
                 runUpdateCowHealthJob();
 
                 assertEquals(expectedNewHealth, userCommons.getCowHealth());
-
                 String expected = """
                                 Updating cow health...
                                 Commons test commons, degradationRate: 1.0, effectiveCapacity: 100
@@ -293,7 +289,6 @@ public class UpdateCowHealthJobTests {
                                 .cowDeaths(0)
                                 .build();
                 commons.setBelowCapacityHealthUpdateStrategy(CowHealthUpdateStrategies.Linear);
-
                 CommonsPlus commonsPlus = CommonsPlus.builder().commons(commons).totalCows(5).totalUsers(1).build();
 
                 List<CommonsPlus> commonsPlusList = List.of(commonsPlus);
@@ -307,9 +302,7 @@ public class UpdateCowHealthJobTests {
                 when(commonsRepository.getNumCows(commons.getId())).thenReturn(Optional.of(99));
                 when(userRepository.findById(1L)).thenReturn(Optional.of(user));
                 when(commonsRepository.getNumUsers(commons.getId())).thenReturn(Optional.of(1));
-
                 runUpdateCowHealthJob();
-
                 String expected = """
                                 Updating cow health...
                                 Commons test commons, degradationRate: 1.0, effectiveCapacity: 100
@@ -386,4 +379,5 @@ public class UpdateCowHealthJobTests {
                 Assertions.assertEquals("Error calling getNumUsers(117)",
                                 thrown.getMessage());
         }
+
 }

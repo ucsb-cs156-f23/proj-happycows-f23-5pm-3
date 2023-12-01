@@ -24,10 +24,15 @@ public class InstructorReportJob implements JobContextConsumer {
         Iterable<Commons> allCommons = commonsRepository.findAll();
 
         for (Commons commons : allCommons) {
-            ctx.log(String.format("Starting Commons id=%d (%s)...", commons.getId(), commons.getName()));
-            Report report = reportService.createReport(commons.getId());
-            ctx.log(String.format("Report %d for commons id=%d (%s) finished.", report.getId(), commons.getId(),
-                    commons.getName()));
+            
+            if(commons.gameInProgress()){
+                ctx.log(String.format("Starting Commons id=%d (%s)...", commons.getId(), commons.getName()));
+                Report report = reportService.createReport(commons.getId());
+                ctx.log(String.format("Report %d for commons id=%d (%s) finished.", report.getId(), commons.getId(),
+                commons.getName()));
+            }else {
+                ctx.log("Game is not currently in progress, report will not be filed in this common.");
+            }       
         }
         ctx.log("Instructor report done!");
     }
